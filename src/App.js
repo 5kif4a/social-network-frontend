@@ -1,26 +1,33 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import {BrowserRouter as Router, Redirect, Route, Switch} from "react-router-dom";
+import {connect} from "react-redux";
+import Base from "./components/Base/Base";
+import Profile from "./components/Profile/Profile";
+import Chat from "./components/Chat/Chat";
+import Settings from "./components/Settings/Settings";
+
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    return (
+        <Router>
+            <Base>
+                <Switch>
+                    <Route exact path="/">
+                        <Redirect to="/profile"/>
+                    </Route>
+                    <Route path={"/profile"} component={Profile}/>
+                    <Route path={"/im"} component={Chat}/>
+                    <Route path={"/settings"} component={Settings}/>
+                </Switch>
+            </Base>
+        </Router>
+    );
 }
 
-export default App;
+function mapStateToProps(state) {
+    return {
+        state: state
+    }
+}
+
+export default connect(mapStateToProps)(App);
