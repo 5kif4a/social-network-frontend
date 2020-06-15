@@ -1,10 +1,15 @@
 /* Profile Theme */
+/* !!! CSS GRID - second column - 5fr!!! */
+.Profile {
+    display: grid;
+    grid-template-rows: 300px 1fr;
+}
+
 .Theme {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 300px;
     position: relative;
 }
 

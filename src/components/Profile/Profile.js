@@ -3,7 +3,7 @@ import styles from "./Profile.module.css";
 
 export default () => {
     return (
-        <div>
+        <div className={styles.Profile}>
             <div className={styles.Theme}>
                 <img className={styles.BackgroundPhoto}
                      src="https://images.wallpaperscraft.ru/image/tatry_polsha_gory_114428_1024x768.jpg"

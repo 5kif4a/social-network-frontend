@@ -9,7 +9,14 @@
     box-sizing: border-box;
 }
 
+html {
+    height: 100%;
+}
+
 body {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
     font-family: 'Roboto', sans-serif;
     background-color: #E6EAED;
 }
@@ -18,8 +25,8 @@ body {
 .container {
     width: 1200px;
     max-width: 100%;
-    height: 100%;
     margin: 0 auto;
+    flex-grow: 1;
 }
 
 /* Header */
@@ -38,14 +45,14 @@ body {
 
 /* CSS Grid */
 .content {
-    height: 100%;
+    min-height: calc(100vh - 68px - 40px); /* header and footer */
     display: grid;
     grid-template-columns: 1fr 5fr;
-    position: relative;
 }
 
 /* Menu */
 .menu {
+    /*min-height: calc(100vh - 68px - 40px); !* header and footer *!*/
     background-color: #474F55;
     padding: 10px 0;
 }
@@ -77,8 +84,6 @@ body {
     position: absolute;
     top: 0;
     right: 0;
-    z-index: 1;
-    margin: 0;
 }
 
 .divider {
@@ -91,11 +96,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 100%;
-    height: 40px;
     background-color: #B9C0C5;
     color: #3F3C43;
-    position: absolute;
-    left: 0;
-    bottom: 0;
+    height: 40px;
 }

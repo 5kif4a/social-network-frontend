@@ -42,13 +42,13 @@ const Footer = () => {
 
 export default props => {
     return (
-        <div className="container">
-            <Header/>
-            <div className="content">
-                <Nav/>
-                {props.children}
+            <div className="container">
+                <Header/>
+                <div className="content">
+                    <Nav/>
+                    {props.children}
+                </div>
+                <Footer/>
             </div>
-            <Footer/>
-        </div>
     )
 }
