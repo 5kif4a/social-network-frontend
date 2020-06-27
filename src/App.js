@@ -5,19 +5,32 @@ import Base from "./components/Base/Base";
 import Profile from "./components/Profile/Profile";
 import Chat from "./components/Chat/Chat";
 import Settings from "./components/Settings/Settings";
+import SignIn from "./components/SignIn/SignIn";
+import SignUp from "./components/SignUp/SignUp";
 
 
-function App() {
+function App(props) {
     return (
         <Router>
             <Base>
                 <Switch>
-                    <Route exact path="/">
-                        <Redirect to="/profile"/>
-                    </Route>
-                    <Route path={"/profile"} component={Profile}/>
-                    <Route path={"/im"} component={Chat}/>
-                    <Route path={"/settings"} component={Settings}/>
+                    {props.user.isAuthenticated ?
+                        <>
+                            <Route exact path="/">
+                                <Redirect to="/profile"/>
+                            </Route>
+
+                            <Route path={"/profile"} component={Profile}/>
+                            <Route path={"/im"} component={Chat}/>
+                            <Route path={"/settings"} component={Settings}/>
+                        </>
+                        :
+                        <>
+                            <Redirect to={"auth"}/>
+                            <Route path={"/auth"} component={SignIn}/>
+                            <Route path={"/register"} component={SignUp}/>
+                        </>
+                    }
                 </Switch>
             </Base>
         </Router>
@@ -26,8 +39,12 @@ function App() {
 
 function mapStateToProps(state) {
     return {
-        state: state
+        user: state.user
     }
 }
 
-export default connect(mapStateToProps)(App);
+function mapDispatchToProps(dispatch) {
+    return {}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

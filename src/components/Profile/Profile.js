@@ -1,13 +1,14 @@
 import React from "react";
-import styles from "./Profile.css";
+import styles from "./Profile.module.css";
+import Posts from "../Posts/Posts";
 
-export default () => {
+export default props => {
     return (
         <div className={styles.Profile}>
             <div className={styles.Theme}>
                 <img className={styles.BackgroundPhoto}
                      src="https://images.wallpaperscraft.ru/image/tatry_polsha_gory_114428_1024x768.jpg"
-                     alt="background profile photo"/>
+                     alt="profile background"/>
                 <img className={styles.Avatar} src="/images/person.png" alt="avatar"/>
                 <p className={styles.UserName}>User Name</p>
             </div>
@@ -27,6 +28,7 @@ export default () => {
                     </div>
                 </div>
                 <hr className={styles.Divider}/>
+                <Posts posts={props.posts}/>
             </div>
         </div>
     )

@@ -1,13 +1,30 @@
 import React from "react";
 import {NavLink} from "react-router-dom";
+import {connect} from "react-redux";
 
-const Header = () => {
+function mapStateToProps(state) {
+    return {
+        user: state.user
+    }
+}
+
+const LogOutButton = () => {
+    return (
+        <button className="header__logout"
+        >Log out</button>
+    )
+};
+
+let Header = props => {
     return (
         <header className="header">
             <h1 className="header__brand">Social Network</h1>
+            {props.user.isAuthenticated ? <LogOutButton/> : null}
         </header>
     )
 };
+
+Header = connect(mapStateToProps)(Header);
 
 const NavItem = props => {
     return (
@@ -40,15 +57,18 @@ const Footer = () => {
     )
 };
 
-export default props => {
+const Base = props => {
     return (
-            <div className="container">
-                <Header/>
-                <div className="content">
-                    <Nav/>
-                    {props.children}
-                </div>
-                <Footer/>
+        <div className="container">
+            <Header/>
+            <div className="content">
+                {props.user.isAuthenticated ? <Nav/> : null}
+                {props.children}
             </div>
+            <Footer/>
+        </div>
     )
-}
+};
+
+
+export default connect(mapStateToProps)(Base);

@@ -33,6 +33,7 @@ body {
 .header {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     background-color: #32393E;
     color: #fff;
     height: 68px;
@@ -41,6 +42,20 @@ body {
 .header__brand {
     font-size: 40px;
     padding: 10px 20px;
+}
+
+.header__logout {
+    margin-right: 20px;
+    padding: 10px;
+    font-size: 20px;
+    font-family: 'Roboto', sans-serif;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.header__logout:hover {
+    background-color: #474F55;
+    color: #fff;
 }
 
 /* CSS Grid */
