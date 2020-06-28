@@ -1,0 +1,7 @@
+export const START_LOGIN = 'SUCCESS_LOGIN';
+export const SUCCESS_LOGIN = 'SUCCESS_LOGIN';
+export const FAILED_LOGIN = 'FAILED_LOGIN';
+
+export const START_LOGOUT = 'SUCCESS_LOGIN';
+export const SUCCESS_LOGOUT = 'SUCCESS_LOGOUT';
+export const FAILED_LOGOUT = 'FAILED_LOGOUT';

@@ -1,6 +1,7 @@
 import React from "react";
 import {NavLink} from "react-router-dom";
 import {connect} from "react-redux";
+import {LogOut} from "../../store/actions/user";
 
 function mapStateToProps(state) {
     return {
@@ -8,23 +9,30 @@ function mapStateToProps(state) {
     }
 }
 
-const LogOutButton = () => {
-    return (
-        <button className="header__logout"
-        >Log out</button>
-    )
-};
+function mapDispatchToProps(dispatch) {
+    return {
+        Logout: () => dispatch(LogOut())
+    }
+}
+
 
 let Header = props => {
     return (
         <header className="header">
             <h1 className="header__brand">Social Network</h1>
-            {props.user.isAuthenticated ? <LogOutButton/> : null}
+            {
+                props.user.isAuthenticated ?
+                    <button
+                        className="header__logout"
+                        onClick={props.Logout}
+                    >Log out</button> :
+                    null
+            }
         </header>
     )
 };
 
-Header = connect(mapStateToProps)(Header);
+Header = connect(mapStateToProps, mapDispatchToProps)(Header);
 
 const NavItem = props => {
     return (

@@ -5,8 +5,8 @@ import Base from "./components/Base/Base";
 import Profile from "./components/Profile/Profile";
 import Chat from "./components/Chat/Chat";
 import Settings from "./components/Settings/Settings";
-import SignIn from "./components/SignIn/SignIn";
-import SignUp from "./components/SignUp/SignUp";
+import SignIn from "./components/Auth/SignIn";
+import SignUp from "./components/Auth/SignUp";
 
 
 function App(props) {
@@ -14,22 +14,33 @@ function App(props) {
         <Router>
             <Base>
                 <Switch>
-                    {props.user.isAuthenticated ?
-                        <>
-                            <Route exact path="/">
-                                <Redirect to="/profile"/>
-                            </Route>
+                    {
+                        props.user.isAuthenticated ?
+                            <>
+                                {/* redirect start page on profile page*/}
+                                <Route exact path="/">
+                                    <Redirect to="/profile"/>
+                                </Route>
 
-                            <Route path={"/profile"} component={Profile}/>
-                            <Route path={"/im"} component={Chat}/>
-                            <Route path={"/settings"} component={Settings}/>
-                        </>
-                        :
-                        <>
-                            <Redirect to={"auth"}/>
-                            <Route path={"/auth"} component={SignIn}/>
-                            <Route path={"/register"} component={SignUp}/>
-                        </>
+                                {/* if user logged redirect auth pages to profile page */}
+                                <Route path={"/auth"}>
+                                    <Redirect to="/profile"/>
+                                </Route>
+                                <Route path={"/register"}>
+                                    <Redirect to="/profile"/>
+                                </Route>
+
+                                {/* main routes */}
+                                <Route path={"/profile"} component={Profile}/>
+                                <Route path={"/im"} component={Chat}/>
+                                <Route path={"/settings"} component={Settings}/>
+                            </>
+                            :
+                            <>
+                                <Redirect to={"auth"}/>
+                                <Route path={"/auth"} component={SignIn}/>
+                                <Route path={"/register"} component={SignUp}/>
+                            </>
                     }
                 </Switch>
             </Base>
@@ -43,8 +54,4 @@ function mapStateToProps(state) {
     }
 }
 
-function mapDispatchToProps(dispatch) {
-    return {}
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(mapStateToProps)(App);
