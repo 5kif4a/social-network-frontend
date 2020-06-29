@@ -5,7 +5,7 @@ import {LogOut} from "../../store/actions/user";
 
 function mapStateToProps(state) {
     return {
-        user: state.user
+        isAuthenticated: state.auth.isAuthenticated
     }
 }
 
@@ -21,7 +21,7 @@ let Header = props => {
         <header className="header">
             <h1 className="header__brand">Social Network</h1>
             {
-                props.user.isAuthenticated ?
+                props.isAuthenticated ?
                     <button
                         className="header__logout"
                         onClick={props.Logout}
@@ -70,7 +70,7 @@ const Base = props => {
         <div className="container">
             <Header/>
             <div className="content">
-                {props.user.isAuthenticated ? <Nav/> : null}
+                {props.isAuthenticated ? <Nav/> : null}
                 {props.children}
             </div>
             <Footer/>

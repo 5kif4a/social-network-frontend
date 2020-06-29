@@ -15,7 +15,7 @@ function App(props) {
             <Base>
                 <Switch>
                     {
-                        props.user.isAuthenticated ?
+                        props.isAuthenticated ?
                             <>
                                 {/* redirect start page on profile page*/}
                                 <Route exact path="/">
@@ -50,7 +50,7 @@ function App(props) {
 
 function mapStateToProps(state) {
     return {
-        user: state.user
+        isAuthenticated: state.auth.isAuthenticated
     }
 }
 
