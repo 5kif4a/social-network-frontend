@@ -1,27 +1,62 @@
-import {FAILED_LOGIN, FAILED_LOGOUT, START_LOGIN, START_LOGOUT, SUCCESS_LOGIN, SUCCESS_LOGOUT} from "./actionsTypes";
-import {API, setTokens} from "../../axios/api";
+import {
+    FAILED_LOGIN,
+    FAILED_LOGOUT,
+    REQUEST_COMPLETED,
+    START_LOGIN,
+    START_LOGOUT,
+    SUCCESS_LOGIN,
+    SUCCESS_LOGOUT
+} from "./actionsTypes";
+import {API} from "../../axios/api";
+import jwt_decode from "jwt-decode";
 
 // User Login Actions
 export function LogIn(username, password) {
     return async dispatch => {
         dispatch(StartLogin());
+
         const authData = {
             username, password
         };
+
         try {
             const response = await API.post('api/token/', authData);
             const tokens = response.data;
-            setTokens(tokens);
+            const decoded_token = jwt_decode(tokens.access);
+
+            localStorage.setItem('access_token', tokens.access);
+            localStorage.setItem('refresh_token', tokens.refresh);
+            localStorage.setItem('user_id', decoded_token.user_id);
+            localStorage.setItem('expiration_date', decoded_token.exp);
 
             dispatch(SuccessLogIn({
-                access_token: tokens['access'],
-                refresh_token: tokens['refresh'],
-            }));
-            // after login redirect to profile page
+                    user: {
+                        id: decoded_token['user_id']
+                    },
+                    tokens: {
+                        access_token: tokens.access,
+                        refresh_token: tokens.refresh
+                    }
+                }
+            ));
+
         } catch (e) {
             const error = e.response;
-            console.log(error);
-            dispatch(FailLogIn({error: true}))
+            let error_message = null;
+
+            if (error) {
+                if (error.status === 400) error_message = "Username and password fields may not be blank!";
+                if (error.status === 401) error_message = "Invalid username or password!";
+            } else
+                error_message = "No connection!";
+
+            dispatch(FailLogIn({
+                error: true,
+                error_message
+            }))
+
+        } finally {
+            dispatch(CompleteRequest())
         }
     }
 }
@@ -47,11 +82,21 @@ export function FailLogIn(payload) {
     }
 }
 
+export function CompleteRequest() {
+    return {
+        type: REQUEST_COMPLETED
+    }
+}
+
 // User Logout Actions
-export function LogOut(dispatch) {
+export function LogOut() {
     return async dispatch => {
-
-
+        dispatch(StartLogOut());
+        localStorage.removeItem("access_token");
+        localStorage.removeItem("refresh_token");
+        localStorage.removeItem('user_id');
+        localStorage.removeItem('expiration_date');
+        dispatch(SuccessLogOut());
     }
 }
 

@@ -41,6 +41,7 @@
 
 .alert {
     padding: 10px;
+    margin-bottom: 10px;
     background-color: #F66E84;
     color: #fff;
     font-weight: 700;
@@ -63,14 +64,27 @@
     display: none;
 }
 
+.label {
+    font-size: 14px;
+}
+
 .input {
     padding: 5px;
     margin: 10px 0;
     font-size: 20px;
 }
 
+.input__invalid {
+    padding: 5px;
+    margin: 10px 0;
+    font-size: 20px;
+    border: 1px solid #DF4554;
+}
+
 .err_msg {
-    color: #DF4554
+    color: #DF4554;
+    font-size: 12px;
+    margin-bottom: 5px;
 }
 
 .btn {

@@ -51,6 +51,8 @@ body {
     font-family: 'Roboto', sans-serif;
     border-radius: 5px;
     cursor: pointer;
+    background-color: #fff;
+    text-decoration: none;
 }
 
 .header__logout:hover {
