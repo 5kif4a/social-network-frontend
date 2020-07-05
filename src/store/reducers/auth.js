@@ -4,14 +4,14 @@ import {
     START_LOGIN,
     START_LOGOUT,
     SUCCESS_LOGIN,
-    SUCCESS_LOGOUT
+    END_LOGOUT
 } from "../actions/actionsTypes";
 
 const initialState = {
-    user: {},
+    user_id: localStorage.getItem('user_id'),
     isRequesting: false,
-    access_token: null,
-    refresh_token: null,
+    access_token: localStorage.getItem('access_token'),
+    refresh_token: localStorage.getItem('refresh_token'),
     error: false,
     error_message: null
 };
@@ -26,10 +26,11 @@ export default function authReducer(state = initialState, action) {
         case SUCCESS_LOGIN:
             return {
                 ...state,
-                user: action.payload.user,
+                user_id: action.payload.user_id,
                 access_token: action.payload.tokens.access_token,
                 refresh_token: action.payload.tokens.refresh_token,
-                error: false
+                error: false,
+                error_message: ""
             };
         case FAILED_LOGIN:
             return {
@@ -47,7 +48,7 @@ export default function authReducer(state = initialState, action) {
                 ...state
             }
         }
-        case SUCCESS_LOGOUT:
+        case END_LOGOUT:
             return {
                 ...state,
                 access_token: null,

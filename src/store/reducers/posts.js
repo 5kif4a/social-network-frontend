@@ -1,17 +1,43 @@
+import {
+    FAILED_FETCH_POSTS,
+    REQUEST_COMPLETED,
+    START_FETCH_POSTS,
+    SUCCESS_FETCH_POSTS
+} from "../actions/actionsTypes";
+
 const initialState = {
-    posts: [
-        {
-            content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
-        },
-        {
-            content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-            image: 'https://dummyimage.com/640x360/fff/aaa'
-        }
-    ]
+    isRequesting: false,
+    isLoaded: false,
+    posts: [],
+    error: false,
+    error_message: ""
+
 };
 
 export default function postsReducer(state = initialState, action) {
     switch (action.type) {
+        case START_FETCH_POSTS:
+            return {
+                ...state,
+                isRequesting: true
+            };
+        case SUCCESS_FETCH_POSTS:
+            return {
+                ...state,
+                posts: action.payload.posts
+            };
+        case FAILED_FETCH_POSTS:
+            return {
+                ...state,
+                error: true,
+                error_message: action.payload.error_message
+            };
+        case REQUEST_COMPLETED:
+            return {
+                ...state,
+                isRequesting: false,
+                isLoaded: true
+            };
         default:
             return state
     }

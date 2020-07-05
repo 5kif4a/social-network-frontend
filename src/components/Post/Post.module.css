@@ -25,6 +25,14 @@
     white-space: nowrap;
 }
 
+.Post__Datetime {
+    margin-top: 5px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #000;
+    text-align: center;
+}
+
 .Post__Content {
     background-color: #F0F2F3;
     color: #474F55;
@@ -48,6 +56,7 @@
     left: -15px;
     top: 10px;
 }
+
 
 .Post__Image {
     width: 100%;

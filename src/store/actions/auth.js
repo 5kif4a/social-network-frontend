@@ -1,12 +1,4 @@
-import {
-    FAILED_LOGIN,
-    FAILED_LOGOUT,
-    REQUEST_COMPLETED,
-    START_LOGIN,
-    START_LOGOUT,
-    SUCCESS_LOGIN,
-    SUCCESS_LOGOUT
-} from "./actionsTypes";
+import {END_LOGOUT, FAILED_LOGIN, REQUEST_COMPLETED, START_LOGIN, START_LOGOUT, SUCCESS_LOGIN} from "./actionsTypes";
 import {API} from "../../axios/api";
 import jwt_decode from "jwt-decode";
 
@@ -30,16 +22,13 @@ export function LogIn(username, password) {
             localStorage.setItem('expiration_date', decoded_token.exp);
 
             dispatch(SuccessLogIn({
-                    user: {
-                        id: decoded_token['user_id']
-                    },
+                    user_id: decoded_token.user_id,
                     tokens: {
                         access_token: tokens.access,
                         refresh_token: tokens.refresh
                     }
                 }
             ));
-
         } catch (e) {
             const error = e.response;
             let error_message = null;
@@ -48,13 +37,12 @@ export function LogIn(username, password) {
                 if (error.status === 400) error_message = "Username and password fields may not be blank!";
                 if (error.status === 401) error_message = "Invalid username or password!";
             } else
-                error_message = "No connection!";
+                error_message = "No connection or request timeout!";
 
             dispatch(FailLogIn({
                 error: true,
                 error_message
             }))
-
         } finally {
             dispatch(CompleteRequest())
         }
@@ -90,13 +78,13 @@ export function CompleteRequest() {
 
 // User Logout Actions
 export function LogOut() {
-    return async dispatch => {
+    return dispatch => {
         dispatch(StartLogOut());
         localStorage.removeItem("access_token");
         localStorage.removeItem("refresh_token");
         localStorage.removeItem('user_id');
         localStorage.removeItem('expiration_date');
-        dispatch(SuccessLogOut());
+        dispatch(EndLogOut());
     }
 }
 
@@ -107,15 +95,9 @@ export function StartLogOut() {
     }
 }
 
-export function SuccessLogOut() {
+export function EndLogOut() {
     return {
-        type: SUCCESS_LOGOUT
-    }
-}
-
-export function FailLogOut() {
-    return {
-        type: FAILED_LOGOUT
+        type: END_LOGOUT
     }
 }
 

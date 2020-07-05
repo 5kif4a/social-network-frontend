@@ -8,9 +8,18 @@ const options = {
 
 const API = axios.create(options);
 
-const setTokens = tokens => {
+API.interceptors.request.use(function (config) {
+    const token = localStorage.getItem('access_token');
+    config.headers.Authorization = token ? `Bearer ${token}` : '';
+    return config;
+});
 
-    API.defaults.headers['Authorization'] = `Bearer ${tokens['access']}`
+const setAuthorizationHeader = token => {
+    API.defaults.headers['Authorization'] = `Bearer ${token}`
 };
 
-export {API, setTokens}
+const removeAuthorizationHeader = () => {
+    delete API.defaults.headers['Authorization']
+};
+
+export {API, setAuthorizationHeader, removeAuthorizationHeader}

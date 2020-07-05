@@ -94,7 +94,7 @@
 .Publish__textarea {
     width: 100%;
     height: 70px;
-    font-size: 14px;
+    font-size: 20px;
     border: #C9D3D8;
     border-radius: 2px;
     box-shadow: 0 0 1px rgba(0, 0, 0, 1);
@@ -102,15 +102,34 @@
     outline: none;
 }
 
-.Publish__button {
+.Publish__buttons {
+    margin-top: 5px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.Publish__attachment_button {
+    font-size: 16px;
+    background-color: #fff;
+    padding: 0 16px;
+    border-radius: 2px;
+    border: none;
+    display: flex;
+    align-items: center;
+}
+
+.Publish__attachment_button img {
+    width: 32px;
+    padding-right: 10px;
+}
+
+.Publish__publish_button {
     font-size: 16px;
     background-color: #64757C;
     color: #fff;
-    margin-top: 5px;
     padding: 12px 16px;
     border-radius: 2px;
     border: none;
-    align-self: flex-end;
 }
 
 

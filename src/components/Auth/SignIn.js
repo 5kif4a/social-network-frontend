@@ -1,13 +1,14 @@
 import React, {useEffect, useRef, useState} from "react";
 import styles from "./Auth.module.css"
 import {connect} from "react-redux";
-import {Link, withRouter} from "react-router-dom";
+import {Link} from "react-router-dom";
 import {LogIn} from "../../store/actions/auth";
 
 const SignIn = props => {
     const firstRender = useRef(true);
 
-    // Username Controls - not using nested object due to incomprehensible behavior
+    // Not using nested object due to incomprehensible behavior
+    // Username Controls
     const [username, setUsername] = useState("");
     const [usernameIsValid, setUsernameIsValid] = useState(false);
     const [usernameErrorMessage, setUsernameErrorMessage] = useState("");
@@ -19,26 +20,7 @@ const SignIn = props => {
 
     const [alertStyle, setAlertStyle] = useState(styles.alert);
 
-    const alertDismissHandler = () => {
-        setAlertStyle(styles.dismiss);
-    };
-
-    const loginHandler = e => {
-        e.preventDefault();
-        if (usernameIsValid && passwordIsValid) {
-            setAlertStyle(styles.alert);
-            props.Login(username, password);
-        }
-    };
-
-    // validation here
-    useEffect(() => {
-        // skip validation on first render
-        if (firstRender.current) {
-            firstRender.current = false;
-            return
-        }
-
+    const validationHandler = () => {
         // username field validation
         if (!username.length) {
             setUsernameIsValid(false);
@@ -55,7 +37,29 @@ const SignIn = props => {
             setPasswordIsValid(true);
             setPasswordErrorMessage("");
         }
+    };
 
+    const alertDismissHandler = () => {
+        setAlertStyle(styles.dismiss);
+    };
+
+    const loginHandler = e => {
+        e.preventDefault();
+
+        validationHandler();
+        if (usernameIsValid && passwordIsValid) {
+            setAlertStyle(styles.alert);
+            props.Login(username, password);
+        }
+    };
+
+    useEffect(() => {
+        // skip validation on first render
+        if (firstRender.current) {
+            firstRender.current = false;
+            return
+        }
+        validationHandler();
     }, [username, password]);
 
     return (
@@ -78,6 +82,7 @@ const SignIn = props => {
                     className={!usernameIsValid && !firstRender.current ?
                         styles.input__invalid : styles.input}
                     onChange={e => setUsername(e.target.value.trim())}
+                    required
                 />
                 {!usernameIsValid ?
                     <span className={styles.err_msg}>{usernameErrorMessage}</span> : null}
@@ -92,6 +97,7 @@ const SignIn = props => {
                     className={!passwordIsValid && !firstRender.current ?
                         styles.input__invalid : styles.input}
                     onChange={e => setPassword(e.target.value.trim())}
+                    required
                 />
                 {!passwordIsValid ?
                     <span className={styles.err_msg}>{passwordErrorMessage}</span> : null}
@@ -125,4 +131,4 @@ function mapDispatchToProps(dispatch) {
     }
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SignIn));
+export default connect(mapStateToProps, mapDispatchToProps)(SignIn);
