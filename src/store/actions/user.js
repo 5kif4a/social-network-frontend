@@ -1,11 +1,8 @@
 import {
     FAILED_FETCH_USER_PROFILE_INFO,
-    FAILED_PUBLISH_POST,
     REQUEST_COMPLETED,
     START_FETCH_USER_PROFILE_INFO,
-    START_PUBLISH_POST,
-    SUCCESS_FETCH_USER_PROFILE_INFO,
-    SUCCESS_PUBLISH_POST
+    SUCCESS_FETCH_USER_PROFILE_INFO
 } from "./actionsTypes";
 import {API} from "../../axios/api";
 
@@ -13,7 +10,7 @@ export default function GetUserProfileInfo(user_id) {
     return async dispatch => {
         dispatch(StartFetchUserProfileInfo());
         try {
-            const response = await API.get(`api/profiles/${user_id}/`);
+            const response = await API.get(`/api/profiles/${user_id}/`);
             const data = response.data;
 
             dispatch(SuccessFetchUserProfileInfo({
@@ -66,54 +63,5 @@ export function FailedFetchUserProfileInfo(payload) {
     return {
         type: FAILED_FETCH_USER_PROFILE_INFO,
         payload
-    }
-}
-
-// Post publish actions
-export function PublishPost(user_id, postText) {
-    return async dispatch => {
-        dispatch(StartPublishPost());
-        const postData = {
-            user: user_id,
-            content: postText
-        };
-
-        try {
-            await API.post('/api/user_posts/', postData);
-            dispatch(SuccessPublishPost())
-        } catch (e) {
-            const error = e.response;
-            let error_message = null;
-
-            if (error) {
-                if (error.status === 400) error_message = "Error was occured!";
-            } else
-                error_message = "No connection or request timeout!";
-
-            dispatch(FailedPublishPost({
-                error: true,
-                error_message
-            }))
-        } finally {
-            dispatch(CompleteRequest())
-        }
-    }
-}
-
-export function StartPublishPost() {
-    return {
-        type: START_PUBLISH_POST
-    }
-}
-
-export function SuccessPublishPost() {
-    return {
-        type: SUCCESS_PUBLISH_POST
-    }
-}
-
-export function FailedPublishPost() {
-    return {
-        type: FAILED_PUBLISH_POST
     }
 }

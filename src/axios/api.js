@@ -14,12 +14,5 @@ API.interceptors.request.use(function (config) {
     return config;
 });
 
-const setAuthorizationHeader = token => {
-    API.defaults.headers['Authorization'] = `Bearer ${token}`
-};
 
-const removeAuthorizationHeader = () => {
-    delete API.defaults.headers['Authorization']
-};
-
-export {API, setAuthorizationHeader, removeAuthorizationHeader}
+export {API, baseURL}

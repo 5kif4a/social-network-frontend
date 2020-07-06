@@ -3,6 +3,7 @@ import styles from "./Auth.module.css"
 import {connect} from "react-redux";
 import {Link} from "react-router-dom";
 import {LogIn} from "../../store/actions/auth";
+import Input from "./Input";
 
 const SignIn = props => {
     const firstRender = useRef(true);
@@ -74,33 +75,27 @@ const SignIn = props => {
                     </div> : null
                 }
                 {/* username input start */}
-                <label htmlFor="username" className={styles.label}>Username</label>
-                <input
+                <Input
                     id="username"
+                    label="Username"
                     type="text"
-                    value={username.trim()}
-                    className={!usernameIsValid && !firstRender.current ?
-                        styles.input__invalid : styles.input}
-                    onChange={e => setUsername(e.target.value.trim())}
-                    required
+                    isValid={usernameIsValid}
+                    firstRender={firstRender}
+                    onChange={e => setUsername(e.target.value)}
+                    errorMessage={usernameErrorMessage}
                 />
-                {!usernameIsValid ?
-                    <span className={styles.err_msg}>{usernameErrorMessage}</span> : null}
                 {/* username input end */}
 
                 {/* password input start */}
-                <label htmlFor="password" className={styles.label}>Password</label>
-                <input
+                <Input
                     id="password"
+                    label="Password"
                     type="password"
-                    value={password.trim()}
-                    className={!passwordIsValid && !firstRender.current ?
-                        styles.input__invalid : styles.input}
-                    onChange={e => setPassword(e.target.value.trim())}
-                    required
+                    isValid={passwordIsValid}
+                    firstRender={firstRender}
+                    onChange={e => setPassword(e.target.value)}
+                    errorMessage={passwordErrorMessage}
                 />
-                {!passwordIsValid ?
-                    <span className={styles.err_msg}>{passwordErrorMessage}</span> : null}
                 {/* password input end */}
 
                 <button

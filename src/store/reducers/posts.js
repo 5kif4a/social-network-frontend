@@ -1,13 +1,15 @@
 import {
     FAILED_FETCH_POSTS,
-    REQUEST_COMPLETED,
+    FAILED_PUBLISH_POST,
     START_FETCH_POSTS,
-    SUCCESS_FETCH_POSTS
+    START_PUBLISH_POST,
+    SUCCESS_FETCH_POSTS,
+    SUCCESS_PUBLISH_POST
 } from "../actions/actionsTypes";
 
 const initialState = {
-    isRequesting: false,
     isLoaded: false,
+    isPublishing: false,
     posts: [],
     error: false,
     error_message: ""
@@ -19,12 +21,12 @@ export default function postsReducer(state = initialState, action) {
         case START_FETCH_POSTS:
             return {
                 ...state,
-                isRequesting: true
             };
         case SUCCESS_FETCH_POSTS:
             return {
                 ...state,
-                posts: action.payload.posts
+                posts: action.payload.posts,
+                isLoaded: true
             };
         case FAILED_FETCH_POSTS:
             return {
@@ -32,11 +34,24 @@ export default function postsReducer(state = initialState, action) {
                 error: true,
                 error_message: action.payload.error_message
             };
-        case REQUEST_COMPLETED:
+        case START_PUBLISH_POST:
             return {
                 ...state,
-                isRequesting: false,
-                isLoaded: true
+                isPublishing: true,
+                error: false,
+                error_message: ""
+            };
+        case SUCCESS_PUBLISH_POST:
+            return {
+                ...state,
+                isPublishing: false
+            };
+        case FAILED_PUBLISH_POST:
+            return {
+                ...state,
+                isPublishing: false,
+                error: true,
+                error_message: action.payload.error_message
             };
         default:
             return state

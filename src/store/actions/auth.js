@@ -1,4 +1,13 @@
-import {END_LOGOUT, FAILED_LOGIN, REQUEST_COMPLETED, START_LOGIN, START_LOGOUT, SUCCESS_LOGIN} from "./actionsTypes";
+import {
+    FAILED_LOGIN,
+    FAILED_REGISTER,
+    LOGOUT,
+    REQUEST_COMPLETED,
+    START_LOGIN,
+    START_REGISTER,
+    SUCCESS_LOGIN,
+    SUCCESS_REGISTER
+} from "./actionsTypes";
 import {API} from "../../axios/api";
 import jwt_decode from "jwt-decode";
 
@@ -12,7 +21,7 @@ export function LogIn(username, password) {
         };
 
         try {
-            const response = await API.post('api/token/', authData);
+            const response = await API.post('/api/token/', authData);
             const tokens = response.data;
             const decoded_token = jwt_decode(tokens.access);
 
@@ -79,25 +88,71 @@ export function CompleteRequest() {
 // User Logout Actions
 export function LogOut() {
     return dispatch => {
-        dispatch(StartLogOut());
         localStorage.removeItem("access_token");
         localStorage.removeItem("refresh_token");
         localStorage.removeItem('user_id');
         localStorage.removeItem('expiration_date');
-        dispatch(EndLogOut());
+        dispatch(Logout());
     }
 }
 
-
-export function StartLogOut() {
+export function Logout() {
     return {
-        type: START_LOGOUT
+        type: LOGOUT
     }
 }
 
-export function EndLogOut() {
+// User Registration Actions
+export function Register(username, email, first_name, last_name, password) {
+    return async dispatch => {
+        const registerData = {
+            username,
+            email,
+            first_name,
+            last_name,
+            password
+        };
+        dispatch(StartRegister());
+        try {
+            const response = await API.post('/auth/users/', registerData);
+            console.log(response.data);
+            dispatch(SuccessRegister())
+
+        } catch (e) {
+            const error = e.response;
+            let error_message;
+            if (error) {
+                if (error.status === 400) {
+                    error_message = error.data.username || error.data.password
+                }
+            } else
+                error_message = "No connection or request timeout!";
+
+            dispatch(FailedRegister({
+                error: true,
+                error_message
+            }))
+        } finally {
+            dispatch(CompleteRequest());
+        }
+    }
+}
+
+export function StartRegister() {
     return {
-        type: END_LOGOUT
+        type: START_REGISTER
     }
 }
 
+export function SuccessRegister() {
+    return {
+        type: SUCCESS_REGISTER
+    }
+}
+
+export function FailedRegister(payload) {
+    return {
+        type: FAILED_REGISTER,
+        payload
+    }
+}

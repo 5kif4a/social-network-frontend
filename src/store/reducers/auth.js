@@ -1,10 +1,11 @@
 import {
     FAILED_LOGIN,
+    FAILED_REGISTER,
     REQUEST_COMPLETED,
     START_LOGIN,
-    START_LOGOUT,
+    START_REGISTER,
     SUCCESS_LOGIN,
-    END_LOGOUT
+    SUCCESS_REGISTER
 } from "../actions/actionsTypes";
 
 const initialState = {
@@ -13,7 +14,7 @@ const initialState = {
     access_token: localStorage.getItem('access_token'),
     refresh_token: localStorage.getItem('refresh_token'),
     error: false,
-    error_message: null
+    error_message: ""
 };
 
 export default function authReducer(state = initialState, action) {
@@ -38,21 +39,26 @@ export default function authReducer(state = initialState, action) {
                 error: action.payload.error,
                 error_message: action.payload.error_message
             };
+        case START_REGISTER:
+            return {
+                ...state,
+                isRequesting: true
+
+            };
+        case SUCCESS_REGISTER:
+            return {
+                ...state
+            };
+        case FAILED_REGISTER:
+            return {
+                ...state,
+                error: action.payload.error,
+                error_message: action.payload.error_message
+            };
         case REQUEST_COMPLETED:
             return {
                 ...state,
                 isRequesting: false
-            };
-        case START_LOGOUT: {
-            return {
-                ...state
-            }
-        }
-        case END_LOGOUT:
-            return {
-                ...state,
-                access_token: null,
-                refresh_token: null,
             };
         default:
             return state

@@ -22,7 +22,7 @@
 .SignUp__form {
     background-color: #fff;
     width: 300px;
-    height: 700px;
+    height: 750px;
     border-radius: 5px;
     box-shadow: 0 5px 10px -5px;
     display: flex;
@@ -64,7 +64,8 @@
     display: none;
 }
 
-.label {
+.SignIn__form label,
+.SignUp__form label {
     font-size: 14px;
 }
 

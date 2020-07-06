@@ -2,35 +2,42 @@ import React, {useEffect, useState} from "react";
 import styles from "./Profile.module.css";
 import Posts from "../Posts/Posts";
 import {connect} from "react-redux";
-import GetUserProfileInfo, {PublishPost} from "../../store/actions/user";
-import {FetchPosts} from "../../store/actions/posts";
+import GetUserProfileInfo from "../../store/actions/user";
+import {FetchPosts, PublishPost} from "../../store/actions/posts";
+import {baseURL} from "../../axios/api";
+import {withRouter} from "react-router-dom";
 
 const Profile = props => {
     const [postContent, setPostContent] = useState("");
-    const [postPublished, setPostPublished] = useState(0);
+    const [image, setImage] = useState(null);
+
+    const avatarURL = props.avatar ? baseURL + props.avatar : "/images/no_avatar.png";
+    const themeURL = props.theme ? baseURL + props.theme : "/images/not_theme.png";
 
     const publishHandler = () => {
         if (postContent.length) {
-            props.publishPost(props.user_id, postContent);
+            props.publishPost(props.user_id, postContent, image);
             setPostContent("");  // clear textarea
-
-            setPostPublished(postPublished + 1);  // dependency for useEffect Hook
+            setImage(null);
         }
     };
 
     useEffect(() => {
         props.getUserProfileInfo(props.user_id);
+    }, []);
+
+    useEffect(() => {
         props.fetchPosts(props.user_id);
-    }, [postPublished]);
+    }, [props.isPublishing]); // need to find another dependency
 
 
     return (
         <div className={styles.Profile}>
             <div className={styles.Theme}>
                 <img className={styles.BackgroundPhoto}
-                     src="https://images.wallpaperscraft.ru/image/tatry_polsha_gory_114428_1024x768.jpg"
+                     src={themeURL}
                      alt="profile background"/>
-                <img className={styles.Avatar} src="/images/person.png" alt="avatar"/>
+                <img className={styles.Avatar} src={avatarURL} alt="avatar"/>
                 <p className={styles.UserName}>{props.username || "Loading..."}</p>
                 <p className={styles.UserName}>{props.first_name} {props.last_name}</p>
             </div>
@@ -43,19 +50,25 @@ const Profile = props => {
                                   onChange={e => setPostContent(e.target.value)}
                         />
                         <div className={styles.Publish__buttons}>
-                            <button className={styles.Publish__attachment_button}>
+                            <label className={styles.Publish__attachment}>
+                                <input type="file" onChange={e => setImage(e.target.files[0])}/>
                                 <img src="/images/attach.png" alt="attach"/>
                                 Add image
-                            </button>
+                            </label>
+                            {/* show image filename if attached */}
+                            {image ?
+                                <span>{image.name}</span>
+                                : null}
                             <button
                                 className={styles.Publish__publish_button}
                                 onClick={publishHandler}
-                            >Publish
+                            >
+                                {props.isPublishing ? "Publishing...": "Publish"}
                             </button>
                         </div>
                     </div>
                     <div className={styles.Status}>
-                        <img className={styles.Avatar__small} src="/images/person.png" alt="avatar"/>
+                        <img className={styles.Avatar__small} src={avatarURL} alt="avatar"/>
                         <div className={styles.Status__content}>
                             <p className={styles.UserName__small}>
                                 {props.username || "Loading..."}
@@ -80,16 +93,18 @@ function mapStateToProps(state) {
         last_name: state.user.last_name,
         avatar: state.user.avatar,
         theme: state.user.theme,
-        status: state.user.status
+        status: state.user.status,
+
+        isPublishing: state.posts.isPublishing
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         getUserProfileInfo: user_id => dispatch(GetUserProfileInfo(user_id)),
-        publishPost: (user_id, content) => dispatch(PublishPost(user_id, content)),
+        publishPost: (user_id, content, image) => dispatch(PublishPost(user_id, content, image)),
         fetchPosts: (user_id) => dispatch(FetchPosts(user_id))
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Profile)
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Profile))

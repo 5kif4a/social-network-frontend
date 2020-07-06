@@ -108,7 +108,7 @@
     justify-content: space-between;
 }
 
-.Publish__attachment_button {
+.Publish__attachment {
     font-size: 16px;
     background-color: #fff;
     padding: 0 16px;
@@ -118,13 +118,21 @@
     align-items: center;
 }
 
-.Publish__attachment_button img {
+.Publish__attachment input[type="file"] {
+    display: none;
+}
+
+.Publish__attachment span {
+    font-size: 16px;
+}
+
+.Publish__attachment img {
     width: 32px;
     padding-right: 10px;
 }
 
 .Publish__publish_button {
-    font-size: 16px;
+    font-size: 1em;
     background-color: #64757C;
     color: #fff;
     padding: 12px 16px;
