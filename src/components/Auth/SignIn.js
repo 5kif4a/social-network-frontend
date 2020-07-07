@@ -115,8 +115,8 @@ function mapStateToProps(state) {
     return {
         isRequesting: state.auth.isRequesting,
         isAuthenticated: !!state.auth.access_token,
-        error: state.auth.error,
-        error_message: state.auth.error_message,
+        error: state.auth.login_error,
+        error_message: state.auth.login_error_message,
     }
 }
 

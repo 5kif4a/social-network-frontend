@@ -12,7 +12,6 @@ const Header = props => {
                     <Link to={"/logout"}
                           className="header__logout"
                     >Log Out</Link> :
-                    // <button className="header__logout">Log Out </button>
                     null
             }
         </header>

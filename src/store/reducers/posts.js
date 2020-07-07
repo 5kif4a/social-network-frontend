@@ -20,6 +20,7 @@ export default function postsReducer(state = initialState, action) {
     switch (action.type) {
         case START_FETCH_POSTS:
             return {
+                isLoaded: false,
                 ...state,
             };
         case SUCCESS_FETCH_POSTS:
@@ -31,9 +32,11 @@ export default function postsReducer(state = initialState, action) {
         case FAILED_FETCH_POSTS:
             return {
                 ...state,
+                isLoaded: true,
                 error: true,
                 error_message: action.payload.error_message
             };
+
         case START_PUBLISH_POST:
             return {
                 ...state,

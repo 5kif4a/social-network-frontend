@@ -8,6 +8,8 @@ import Settings from "./components/Settings/Settings";
 import SignIn from "./components/Auth/SignIn";
 import SignUp from "./components/Auth/SignUp";
 import Logout from "./components/Base/Logout";
+import Success from "./components/Success/Success";
+import Friends from "./components/Friends/Friends";
 
 
 function App(props) {
@@ -15,7 +17,7 @@ function App(props) {
         <Switch>
             <Route path={"/auth"} component={SignIn}/>
             <Route path={"/register"} component={SignUp}/>
-
+            <Route path={"/success"} component={Success}/>
             <Route path={"/"}>
                 <Redirect to={"/auth"}/>
             </Route>
@@ -25,11 +27,13 @@ function App(props) {
     if (props.isAuthenticated) {
         routes = (
             <Switch>
+
                 <Route path={"/profile"} component={Profile}/>
                 <Route path={"/im"} component={Chat}/>
+                <Route path={"/friends"} component={Friends}/>
                 <Route path={"/settings"} component={Settings}/>
-                <Route path={"/logout"} component={Logout}/>
 
+                <Route path={"/logout"} component={Logout}/>
                 <Route path={"/"}>
                     <Redirect to={"profile"}/>
                 </Route>

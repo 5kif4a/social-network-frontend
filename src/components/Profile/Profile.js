@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import styles from "./Profile.module.css";
 import Posts from "../Posts/Posts";
 import {connect} from "react-redux";
@@ -9,6 +9,7 @@ import {withRouter} from "react-router-dom";
 
 const Profile = props => {
     const [postContent, setPostContent] = useState("");
+    const imageFileInput = useRef();
     const [image, setImage] = useState(null);
 
     const avatarURL = props.avatar ? baseURL + props.avatar : "/images/no_avatar.png";
@@ -51,21 +52,31 @@ const Profile = props => {
                         />
                         <div className={styles.Publish__buttons}>
                             <label className={styles.Publish__attachment}>
-                                <input type="file" onChange={e => setImage(e.target.files[0])}/>
+                                <input
+                                    type="file"
+                                    accept="image/*"
+                                    onChange={e => setImage(e.target.files[0])}
+                                    />
                                 <img src="/images/attach.png" alt="attach"/>
                                 Add image
                             </label>
-                            {/* show image filename if attached */}
-                            {image ?
-                                <span>{image.name}</span>
-                                : null}
                             <button
                                 className={styles.Publish__publish_button}
                                 onClick={publishHandler}
                             >
-                                {props.isPublishing ? "Publishing...": "Publish"}
+                                {props.isPublishing ? "Publishing..." : "Publish"}
                             </button>
                         </div>
+                        {/* show image filename if attached */}
+                        {image ?
+                            <span className={styles.Filename}>{image.name}
+                                <button
+                                    className={styles.RemoveFile}
+                                    onClick={() => setImage(null)}
+                                >&times;
+                            </button>
+                            </span>
+                            : null}
                     </div>
                     <div className={styles.Status}>
                         <img className={styles.Avatar__small} src={avatarURL} alt="avatar"/>

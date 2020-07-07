@@ -1,6 +1,6 @@
 import {
     FAILED_LOGIN,
-    FAILED_REGISTER,
+    FAILED_REGISTER, LOGOUT,
     REQUEST_COMPLETED,
     START_LOGIN,
     START_REGISTER,
@@ -13,8 +13,10 @@ const initialState = {
     isRequesting: false,
     access_token: localStorage.getItem('access_token'),
     refresh_token: localStorage.getItem('refresh_token'),
-    error: false,
-    error_message: ""
+    login_error: false,
+    login_error_message: "",
+    register_error: false,
+    register_error_message: ""
 };
 
 export default function authReducer(state = initialState, action) {
@@ -30,30 +32,39 @@ export default function authReducer(state = initialState, action) {
                 user_id: action.payload.user_id,
                 access_token: action.payload.tokens.access_token,
                 refresh_token: action.payload.tokens.refresh_token,
-                error: false,
-                error_message: ""
+                login_error: false,
+                login_error_message: ""
             };
         case FAILED_LOGIN:
             return {
                 ...state,
-                error: action.payload.error,
-                error_message: action.payload.error_message
+                login_error: action.payload.error,
+                login_error_message: action.payload.error_message
+            };
+        case LOGOUT:
+            return {
+                ...state,
+                user_id: null,
+                access_token: null,
+                refresh_token: null,
             };
         case START_REGISTER:
             return {
                 ...state,
                 isRequesting: true
-
             };
         case SUCCESS_REGISTER:
             return {
-                ...state
+                ...state,
+                successRegister: true,
+                register_error: false,
+                register_error_message: ""
             };
         case FAILED_REGISTER:
             return {
                 ...state,
-                error: action.payload.error,
-                error_message: action.payload.error_message
+                register_error: action.payload.error,
+                register_error_message: action.payload.error_message
             };
         case REQUEST_COMPLETED:
             return {

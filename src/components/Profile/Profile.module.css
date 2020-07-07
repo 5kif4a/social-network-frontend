@@ -122,8 +122,13 @@
     display: none;
 }
 
-.Publish__attachment span {
+.Filename {
+    margin-top: 5px;
     font-size: 16px;
+}
+
+.RemoveFile {
+    margin-left: 5px;
 }
 
 .Publish__attachment img {

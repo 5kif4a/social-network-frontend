@@ -18,6 +18,7 @@ const Nav = () => {
         <ul className="menu">
             <NavItem path={"/profile"}>Profile</NavItem>
             <NavItem path={"/im"}>Messages</NavItem>
+            <NavItem path={"/friends"}>Friends</NavItem>
             <hr className="divider"/>
             <NavItem path={"/settings"}>Settings</NavItem>
         </ul>

@@ -11,6 +11,12 @@ import {
 import {API} from "../../axios/api";
 import jwt_decode from "jwt-decode";
 
+export function CompleteRequest() {
+    return {
+        type: REQUEST_COMPLETED
+    }
+}
+
 // User Login Actions
 export function LogIn(username, password) {
     return async dispatch => {
@@ -58,7 +64,6 @@ export function LogIn(username, password) {
     }
 }
 
-
 export function StartLogin() {
     return {
         type: START_LOGIN
@@ -76,12 +81,6 @@ export function FailLogIn(payload) {
     return {
         type: FAILED_LOGIN,
         payload
-    }
-}
-
-export function CompleteRequest() {
-    return {
-        type: REQUEST_COMPLETED
     }
 }
 
@@ -103,20 +102,34 @@ export function Logout() {
 }
 
 // User Registration Actions
-export function Register(username, email, first_name, last_name, password) {
+export function Register(username, email, first_name, last_name, password, history) {
     return async dispatch => {
-        const registerData = {
-            username,
-            email,
-            first_name,
-            last_name,
-            password
-        };
         dispatch(StartRegister());
         try {
-            const response = await API.post('/auth/users/', registerData);
-            console.log(response.data);
-            dispatch(SuccessRegister())
+            // 1) make user registration request
+            await API.post('/auth/users/', {
+                username,
+                email,
+                password
+            });
+
+            // 2) after user registration get JWT token
+            const response = await API.post('/api/token/', {username, password});
+            const tokens = response.data;
+            const decoded_token = jwt_decode(tokens.access);
+
+            // 3) create user profile
+            localStorage.setItem('access_token', tokens.access);
+            await API.post('/api/profiles/', {
+                    user_id: decoded_token.user_id,
+                    first_name,
+                    last_name
+                }
+            );
+            localStorage.removeItem('access_token');
+            dispatch(SuccessRegister());
+            // after successful registration redirect to success page
+            history.push('/success')
 
         } catch (e) {
             const error = e.response;

@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from "react";
 import styles from "./Auth.module.css"
 import {connect} from "react-redux";
-import {Link} from "react-router-dom";
+import {Link, withRouter} from "react-router-dom";
 import {Register} from "../../store/actions/auth";
 import Input from "./Input";
 
@@ -125,7 +125,13 @@ const SignUp = props => {
 
         if (allIsValid) {
             setAlertStyle(styles.alert);
-            props.register(username, email, firstName, lastName, password);
+            props.register(
+                username,
+                email,
+                firstName,
+                lastName,
+                password,
+                props.history)  // history need for redirecting after success registration
         }
     };
 
@@ -238,15 +244,15 @@ const SignUp = props => {
 function mapStateToProps(state) {
     return {
         isRequesting: state.auth.isRequesting,
-        error: state.auth.error,
-        error_message: state.auth.error_message,
+        error: state.auth.register_error,
+        error_message: state.auth.register_error_message,
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        register: (username, email, first_name, last_name, password) => dispatch(Register(username, email, first_name, last_name, password))
+        register: (username, email, first_name, last_name, password, history) => dispatch(Register(username, email, first_name, last_name, password, history))
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SignUp);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SignUp));

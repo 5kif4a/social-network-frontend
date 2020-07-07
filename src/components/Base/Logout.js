@@ -6,10 +6,10 @@ import {connect} from "react-redux";
 const Logout = (props) => {
     useEffect(() => {
         props.Logout()
-    });
+    }, []);
 
     return (
-        <Redirect push to={"/auth"}/>
+        <Redirect push to={"/"}/>
     )
 };
 
