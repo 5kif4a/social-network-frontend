@@ -2,7 +2,7 @@ import {
     FAILED_LOGIN,
     FAILED_REGISTER,
     LOGOUT,
-    REQUEST_COMPLETED,
+    REQUEST_COMPLETED, RESET_STATE,
     START_LOGIN,
     START_REGISTER,
     SUCCESS_LOGIN,
@@ -18,6 +18,7 @@ export function CompleteRequest() {
 }
 
 // User Login Actions
+// TODO Autologout
 export function LogIn(username, password) {
     return async dispatch => {
         dispatch(StartLogin());
@@ -89,15 +90,23 @@ export function LogOut() {
     return dispatch => {
         localStorage.removeItem("access_token");
         localStorage.removeItem("refresh_token");
-        localStorage.removeItem('user_id');
-        localStorage.removeItem('expiration_date');
+        localStorage.removeItem("user_id");
+        localStorage.removeItem("expiration_date");
         dispatch(Logout());
+        // clear global state
+        dispatch(ResetState());
     }
 }
 
 export function Logout() {
     return {
         type: LOGOUT
+    }
+}
+
+export function ResetState() {
+    return {
+        type: RESET_STATE
     }
 }
 

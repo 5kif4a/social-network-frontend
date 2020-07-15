@@ -1,5 +1,5 @@
-import React, {useEffect, useRef, useState} from "react";
-import styles from "./Profile.module.css";
+import React, {useEffect, useState} from "react";
+import styles from "./ProfilePage.module.css";
 import Posts from "../Posts/Posts";
 import {connect} from "react-redux";
 import GetUserProfileInfo from "../../store/actions/user";
@@ -7,9 +7,8 @@ import {FetchPosts, PublishPost} from "../../store/actions/posts";
 import {baseURL} from "../../axios/api";
 import {withRouter} from "react-router-dom";
 
-const Profile = props => {
+const ProfilePage = props => {
     const [postContent, setPostContent] = useState("");
-    const imageFileInput = useRef();
     const [image, setImage] = useState(null);
 
     const avatarURL = props.avatar ? baseURL + props.avatar : "/images/no_avatar.png";
@@ -25,11 +24,12 @@ const Profile = props => {
 
     useEffect(() => {
         props.getUserProfileInfo(props.user_id);
+        props.fetchPosts(props.user_id);
     }, []);
 
     useEffect(() => {
         props.fetchPosts(props.user_id);
-    }, [props.isPublishing]); // need to find another dependency
+    }, [props.isPublishing]); // TODO need to find another dependency
 
 
     return (
@@ -56,7 +56,7 @@ const Profile = props => {
                                     type="file"
                                     accept="image/*"
                                     onChange={e => setImage(e.target.files[0])}
-                                    />
+                                />
                                 <img src="/images/attach.png" alt="attach"/>
                                 Add image
                             </label>
@@ -89,7 +89,7 @@ const Profile = props => {
                     </div>
                 </div>
                 <hr className={styles.Divider}/>
-                <Posts/>
+                <Posts posts={props.posts}/>
             </div>
         </div>
     )
@@ -106,6 +106,7 @@ function mapStateToProps(state) {
         theme: state.user.theme,
         status: state.user.status,
 
+        posts: state.posts.posts,
         isPublishing: state.posts.isPublishing
     }
 }
@@ -118,4 +119,4 @@ function mapDispatchToProps(dispatch) {
     }
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Profile))
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ProfilePage))

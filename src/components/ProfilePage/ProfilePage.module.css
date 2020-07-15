@@ -38,6 +38,8 @@
 
 .UserName {
     color: #fff;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: black;
     font-size: 30px;
     font-weight: 700;
     padding-top: 20px;
@@ -92,6 +94,7 @@
 }
 
 .Publish__textarea {
+    padding: 5px;
     width: 100%;
     height: 70px;
     font-size: 20px;

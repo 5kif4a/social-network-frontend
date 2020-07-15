@@ -2,7 +2,7 @@ import {combineReducers} from "redux";
 import postsReducer from "./posts";
 import userReducer from "./user";
 import authReducer from "./auth";
-import {LOGOUT} from "../actions/actionsTypes";
+import {RESET_STATE} from "../actions/actionsTypes";
 
 const appReducer = combineReducers({
     auth: authReducer,
@@ -11,7 +11,7 @@ const appReducer = combineReducers({
 });
 
 export default function rootReducer(state, action) {
-    if (action.type === LOGOUT) {
+    if (action.type === RESET_STATE) {
         state = undefined
     }
     return appReducer(state, action)

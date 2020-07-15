@@ -2,14 +2,14 @@ import React from 'react';
 import {Redirect, Route, Switch} from "react-router-dom";
 import {connect} from "react-redux";
 import Base from "./components/Base/Base";
-import Profile from "./components/Profile/Profile";
-import Chat from "./components/Chat/Chat";
-import Settings from "./components/Settings/Settings";
+import ProfilePage from "./components/ProfilePage/ProfilePage";
+import ChatPage from "./components/Chat/ChatPage";
+import ProfileSettings from "./components/ProfileSettings/ProfileSettings";
 import SignIn from "./components/Auth/SignIn";
 import SignUp from "./components/Auth/SignUp";
 import Logout from "./components/Base/Logout";
 import Success from "./components/Success/Success";
-import Friends from "./components/Friends/Friends";
+import FriendsPage from "./components/FriendsPage/FriendsPage";
 
 
 function App(props) {
@@ -28,10 +28,10 @@ function App(props) {
         routes = (
             <Switch>
 
-                <Route path={"/profile"} component={Profile}/>
-                <Route path={"/im"} component={Chat}/>
-                <Route path={"/friends"} component={Friends}/>
-                <Route path={"/settings"} component={Settings}/>
+                <Route path={"/profile"} component={ProfilePage}/>
+                <Route path={"/im"} component={ChatPage}/>
+                <Route path={"/friends"} component={FriendsPage}/>
+                <Route path={"/settings"} component={ProfileSettings}/>
 
                 <Route path={"/logout"} component={Logout}/>
                 <Route path={"/"}>

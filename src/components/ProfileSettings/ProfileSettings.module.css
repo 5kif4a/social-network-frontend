@@ -1,0 +1,94 @@
+.ProfileSettings {
+    background-color: #fff;
+    padding-top: 10px;
+    padding-left: 20px;
+}
+
+.heading {
+    margin: 30px 0;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.label {
+    font-size: 16px;
+    font-weight: 700;
+    margin-left: 5px;
+    margin-bottom: 5px;
+}
+
+
+.avatar_block {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.avatar_block:hover {
+    cursor: pointer;
+}
+
+.avatar_block input[type="file"] {
+    display: none;
+}
+
+.avatar_block span {
+    margin-left: 30px;
+    padding: 10px;
+    background-color: lightgray;
+    color: #000;
+}
+
+.avatar {
+    width: 128px;
+    height: 128px;
+    background-color: #ccc;
+    border: 2px solid grey;
+    border-radius: 50%;
+    z-index: 1;
+}
+
+.others {
+
+}
+
+.names {
+    display: flex;
+    margin: 20px 0;
+}
+
+.names div {
+    display: flex;
+    flex-direction: column;
+    margin: 0 1.5em;
+}
+
+
+.names input {
+    font-size: 16px;
+    padding: 5px;
+}
+
+.status {
+    display: flex;
+    flex-direction: column;
+    margin: 0 1.5em;
+}
+
+.status textarea {
+    resize: none;
+    height: 100px;
+}
+
+.btn {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #0078D4;
+    color: #fff;
+    border: none;
+    font-size: 20px;
+}

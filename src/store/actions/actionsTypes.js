@@ -1,3 +1,4 @@
+export const RESET_STATE = 'RESET_STATE';
 export const REQUEST_COMPLETED = 'REQUEST_COMPLETED';
 // Auth
 export const START_LOGIN = 'START_LOGIN';

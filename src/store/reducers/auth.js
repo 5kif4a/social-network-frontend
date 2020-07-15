@@ -24,16 +24,16 @@ export default function authReducer(state = initialState, action) {
         case START_LOGIN:
             return {
                 ...state,
-                isRequesting: true
+                isRequesting: true,
+                login_error: false,
+                login_error_message: ""
             };
         case SUCCESS_LOGIN:
             return {
                 ...state,
                 user_id: action.payload.user_id,
                 access_token: action.payload.tokens.access_token,
-                refresh_token: action.payload.tokens.refresh_token,
-                login_error: false,
-                login_error_message: ""
+                refresh_token: action.payload.tokens.refresh_token
             };
         case FAILED_LOGIN:
             return {
