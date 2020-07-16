@@ -1,7 +1,9 @@
 import {
     FAILED_LOGIN,
-    FAILED_REGISTER, LOGOUT,
-    REQUEST_COMPLETED,
+    FAILED_REGISTER,
+    LOGIN_REQUEST_COMPLETED,
+    LOGOUT,
+    REGISTER_REQUEST_COMPLETED,
     START_LOGIN,
     START_REGISTER,
     SUCCESS_LOGIN,
@@ -41,6 +43,11 @@ export default function authReducer(state = initialState, action) {
                 login_error: action.payload.error,
                 login_error_message: action.payload.error_message
             };
+        case LOGIN_REQUEST_COMPLETED:
+            return {
+                ...state,
+                isRequesting: false
+            };
         case LOGOUT:
             return {
                 ...state,
@@ -66,7 +73,7 @@ export default function authReducer(state = initialState, action) {
                 register_error: action.payload.error,
                 register_error_message: action.payload.error_message
             };
-        case REQUEST_COMPLETED:
+        case REGISTER_REQUEST_COMPLETED:
             return {
                 ...state,
                 isRequesting: false

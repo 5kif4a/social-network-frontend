@@ -1,8 +1,10 @@
 import {
     FAILED_LOGIN,
     FAILED_REGISTER,
+    LOGIN_REQUEST_COMPLETED,
     LOGOUT,
-    REQUEST_COMPLETED, RESET_STATE,
+    REGISTER_REQUEST_COMPLETED,
+    RESET_STATE,
     START_LOGIN,
     START_REGISTER,
     SUCCESS_LOGIN,
@@ -10,12 +12,6 @@ import {
 } from "./actionsTypes";
 import {API} from "../../axios/api";
 import jwt_decode from "jwt-decode";
-
-export function CompleteRequest() {
-    return {
-        type: REQUEST_COMPLETED
-    }
-}
 
 // User Login Actions
 // TODO Autologout
@@ -60,7 +56,7 @@ export function LogIn(username, password) {
                 error_message
             }))
         } finally {
-            dispatch(CompleteRequest())
+            dispatch({type: LOGIN_REQUEST_COMPLETED})
         }
     }
 }
@@ -92,21 +88,9 @@ export function LogOut() {
         localStorage.removeItem("refresh_token");
         localStorage.removeItem("user_id");
         localStorage.removeItem("expiration_date");
-        dispatch(Logout());
         // clear global state
-        dispatch(ResetState());
-    }
-}
-
-export function Logout() {
-    return {
-        type: LOGOUT
-    }
-}
-
-export function ResetState() {
-    return {
-        type: RESET_STATE
+        dispatch({type: RESET_STATE});
+        dispatch({type: LOGOUT});
     }
 }
 
@@ -129,12 +113,7 @@ export function Register(username, email, first_name, last_name, password, histo
 
             // 3) create user profile
             localStorage.setItem('access_token', tokens.access);
-            await API.post('/api/profiles/', {
-                    user_id: decoded_token.user_id,
-                    first_name,
-                    last_name
-                }
-            );
+            await API.post('/api/profiles/', {user_id: decoded_token.user_id, first_name, last_name});
             localStorage.removeItem('access_token');
             dispatch(SuccessRegister());
             // after successful registration redirect to success page
@@ -155,7 +134,7 @@ export function Register(username, email, first_name, last_name, password, histo
                 error_message
             }))
         } finally {
-            dispatch(CompleteRequest());
+            dispatch({type: REGISTER_REQUEST_COMPLETED});
         }
     }
 }

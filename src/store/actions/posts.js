@@ -1,6 +1,8 @@
 import {
     FAILED_FETCH_POSTS,
     FAILED_PUBLISH_POST,
+    FETCH_POSTS_REQUEST_COMPLETED,
+    PUBLISH_POST_REQUEST_COMPLETED,
     START_FETCH_POSTS,
     START_PUBLISH_POST,
     SUCCESS_FETCH_POSTS,
@@ -24,6 +26,8 @@ export function FetchPosts(user_id) {
                 error: true,
                 error_message
             }))
+        } finally {
+            dispatch({type: FETCH_POSTS_REQUEST_COMPLETED})
         }
     }
 }
@@ -70,10 +74,9 @@ export function PublishPost(user_id, postText, image) {
             } else
                 error_message = "No connection or request timeout!";
 
-            dispatch(FailedPublishPost({
-                error: true,
-                error_message
-            }))
+            dispatch(FailedPublishPost({error_message}))
+        } finally {
+            dispatch({type: PUBLISH_POST_REQUEST_COMPLETED})
         }
     }
 }

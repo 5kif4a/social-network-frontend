@@ -1,8 +1,12 @@
 import {
     FAILED_FETCH_USER_PROFILE_INFO,
-    REQUEST_COMPLETED,
+    FAILED_UPDATE_USER_PROFILE_INFO,
+    FETCH_USER_PROFILE_INFO_REQUEST_COMPLETED,
     START_FETCH_USER_PROFILE_INFO,
-    SUCCESS_FETCH_USER_PROFILE_INFO
+    START_UPDATE_USER_PROFILE_INFO,
+    SUCCESS_FETCH_USER_PROFILE_INFO,
+    SUCCESS_UPDATE_USER_PROFILE_INFO,
+    UPDATE_USER_PROFILE_INFO_REQUEST_COMPLETED
 } from "../actions/actionsTypes";
 
 const initialState = {
@@ -15,7 +19,9 @@ const initialState = {
     status: null,
     error: false,
     error_message: "",
-    postText: ""
+    postText: "",
+    profile_settings_error: false,
+    profile_settings_msg: ""
 };
 
 export default function userReducer(state = initialState, action) {
@@ -43,12 +49,39 @@ export default function userReducer(state = initialState, action) {
                 error: true,
                 error_message: action.payload.error_message
             };
-        case REQUEST_COMPLETED: {
+        case FETCH_USER_PROFILE_INFO_REQUEST_COMPLETED: {
             return {
                 ...state,
                 isRequesting: false
             }
         }
+        case START_UPDATE_USER_PROFILE_INFO:
+            return {
+                ...state,
+                isRequesting: true,
+                profile_settings_error: false,
+                profile_settings_msg: ""
+            };
+        case SUCCESS_UPDATE_USER_PROFILE_INFO:
+            return {
+                ...state,
+                first_name: action.payload.first_name,
+                last_name: action.last_name,
+                avatar: action.payload.avatar,
+                theme: action.payload.theme,
+                status: action.payload.status
+            };
+        case FAILED_UPDATE_USER_PROFILE_INFO:
+            return {
+                ...state,
+                profile_settings_error: true,
+                profile_settings_msg: action.payload.error_message
+            };
+        case UPDATE_USER_PROFILE_INFO_REQUEST_COMPLETED:
+            return {
+                ...state,
+                isRequesting: false,
+            };
         default:
             return state
     }

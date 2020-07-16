@@ -1,6 +1,6 @@
 import {
     FAILED_FETCH_POSTS,
-    FAILED_PUBLISH_POST,
+    FAILED_PUBLISH_POST, PUBLISH_POST_REQUEST_COMPLETED,
     START_FETCH_POSTS,
     START_PUBLISH_POST,
     SUCCESS_FETCH_POSTS,
@@ -36,7 +36,6 @@ export default function postsReducer(state = initialState, action) {
                 error: true,
                 error_message: action.payload.error_message
             };
-
         case START_PUBLISH_POST:
             return {
                 ...state,
@@ -46,15 +45,18 @@ export default function postsReducer(state = initialState, action) {
             };
         case SUCCESS_PUBLISH_POST:
             return {
-                ...state,
-                isPublishing: false
+                ...state
             };
         case FAILED_PUBLISH_POST:
             return {
                 ...state,
-                isPublishing: false,
                 error: true,
                 error_message: action.payload.error_message
+            };
+        case PUBLISH_POST_REQUEST_COMPLETED:
+            return {
+                ...state,
+                isPublishing: false
             };
         default:
             return state
