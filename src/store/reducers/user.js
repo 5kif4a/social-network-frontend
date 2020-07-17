@@ -19,9 +19,9 @@ const initialState = {
     status: null,
     error: false,
     error_message: "",
-    postText: "",
+    profile_settings_update_success: false,
     profile_settings_error: false,
-    profile_settings_msg: ""
+    profile_settings_alert_msg: ""
 };
 
 export default function userReducer(state = initialState, action) {
@@ -29,7 +29,12 @@ export default function userReducer(state = initialState, action) {
         case START_FETCH_USER_PROFILE_INFO:
             return {
                 ...state,
-                isRequesting: true
+                isRequesting: true,
+                error: false,
+                error_message: "",
+
+                profile_settings_update_success: false,
+                profile_settings_error: false
             };
         case SUCCESS_FETCH_USER_PROFILE_INFO:
             return {
@@ -40,8 +45,6 @@ export default function userReducer(state = initialState, action) {
                 avatar: action.payload.avatar,
                 theme: action.payload.theme,
                 status: action.payload.status,
-                error: false,
-                error_message: ""
             };
         case FAILED_FETCH_USER_PROFILE_INFO:
             return {
@@ -59,23 +62,26 @@ export default function userReducer(state = initialState, action) {
             return {
                 ...state,
                 isRequesting: true,
+                profile_settings_update_success: false,
                 profile_settings_error: false,
-                profile_settings_msg: ""
+                profile_settings_alert_msg: ""
             };
         case SUCCESS_UPDATE_USER_PROFILE_INFO:
             return {
                 ...state,
                 first_name: action.payload.first_name,
-                last_name: action.last_name,
+                last_name: action.payload.last_name,
                 avatar: action.payload.avatar,
                 theme: action.payload.theme,
-                status: action.payload.status
+                status: action.payload.status,
+                profile_settings_update_success: true,
+                profile_settings_alert_msg: "Data saved successfully"
             };
         case FAILED_UPDATE_USER_PROFILE_INFO:
             return {
                 ...state,
                 profile_settings_error: true,
-                profile_settings_msg: action.payload.error_message
+                profile_settings_alert_msg: action.payload.error_message
             };
         case UPDATE_USER_PROFILE_INFO_REQUEST_COMPLETED:
             return {

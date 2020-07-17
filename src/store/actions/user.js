@@ -9,7 +9,6 @@ import {
     UPDATE_USER_PROFILE_INFO_REQUEST_COMPLETED
 } from "./actionsTypes";
 import {API} from "../../axios/api";
-import user from "../reducers/user";
 
 export default function GetUserProfileInfo(user_id) {
     return async dispatch => {
@@ -63,11 +62,12 @@ export function FailedFetchUserProfileInfo(payload) {
 }
 
 // Save Changes User Profile Info
-export function SaveChangesUserProfileInfo(user_id, data) {
-    return async dispatch => {
+export function SaveChangesUserProfileInfo(data) {
+    return async (dispatch, getState) => {
         dispatch({type: START_UPDATE_USER_PROFILE_INFO});
 
         const updateData = new FormData();
+        const user_id = getState().auth.user_id;
         let user = {
             id: user_id
         };
@@ -98,7 +98,7 @@ export function SaveChangesUserProfileInfo(user_id, data) {
             let error_message;
 
             if (error) {
-                if (error.status === 400) error_message = "User doesn't exist!";
+                if (error.status === 400) error_message = "Error was occurred. Please try later";
             } else
                 error_message = "No connection or request timeout!";
             dispatch({type: FAILED_UPDATE_USER_PROFILE_INFO, payload: {error_message}})

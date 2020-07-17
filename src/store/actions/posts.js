@@ -16,16 +16,10 @@ export function FetchPosts(user_id) {
         try {
             const response = await API.get(`/api/user_posts/${user_id}`);
             const posts = response.data;
-            dispatch(SuccessFetchPosts({
-                posts
-            }))
-
+            dispatch(SuccessFetchPosts({posts}))
         } catch (e) {
             let error_message = "Error was occurred!";
-            dispatch(FailedFetchPosts({
-                error: true,
-                error_message
-            }))
+            dispatch(FailedFetchPosts({error_message}))
         } finally {
             dispatch({type: FETCH_POSTS_REQUEST_COMPLETED})
         }
@@ -53,12 +47,12 @@ export function FailedFetchPosts(payload) {
 }
 
 // Post publish actions
-export function PublishPost(user_id, postText, image) {
-    return async dispatch => {
+export function PublishPost(postText, image) {
+    return async (dispatch, getState) => {
         dispatch(StartPublishPost());
 
         const postData = new FormData();
-        postData.append('user', user_id);
+        postData.append('user', getState().auth.user_id);
         postData.append('content', postText);
         if (image) postData.append('attachment', image, image.name);
 

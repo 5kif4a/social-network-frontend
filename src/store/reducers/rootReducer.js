@@ -2,12 +2,14 @@ import {combineReducers} from "redux";
 import postsReducer from "./posts";
 import userReducer from "./user";
 import authReducer from "./auth";
+import searchReducer from "../actions/search";
 import {RESET_STATE} from "../actions/actionsTypes";
 
 const appReducer = combineReducers({
     auth: authReducer,
     user: userReducer,
-    posts: postsReducer
+    posts: postsReducer,
+    search: searchReducer
 });
 
 export default function rootReducer(state, action) {

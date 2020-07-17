@@ -13,6 +13,15 @@ const ProfileSettings = props => {
     const [lastName, setLastName] = useState("");
     const [status, setStatus] = useState("");
 
+    const somethingChanged = [avatarImage, backgroundThemeImage, firstName, lastName, status].some(field => field);
+
+    const initialAlertStyles = {
+        success: `${styles.alert} ${styles.alert_success}`,
+        fail: `${styles.alert} ${styles.alert_fail}`
+    };
+
+    const [alertStyles, setAlertStyles] = useState(initialAlertStyles);
+
     const clearInputs = () => {
         setAvatarImage(null);
         setBackgroundThemeImage(null);
@@ -21,17 +30,24 @@ const ProfileSettings = props => {
         setStatus("");
     };
 
+    const alertDismissHandler = () => {
+        setAlertStyles({success: styles.dismiss, fail: styles.dismiss});
+    };
+
     const saveHandler = e => {
         e.preventDefault();
-        const data = {
-            avatar: avatarImage,
-            theme: backgroundThemeImage,
-            first_name: firstName,
-            last_name: lastName,
-            status
-        };
-        props.saveChangesUserProfileInfo(props.user_id, data);
-        clearInputs();
+        if (somethingChanged) {
+            const data = {
+                avatar: avatarImage,
+                theme: backgroundThemeImage,
+                first_name: firstName,
+                last_name: lastName,
+                status
+            };
+            setAlertStyles(initialAlertStyles); // remove alerts
+            props.saveChangesUserProfileInfo(data);
+            clearInputs();
+        }
     };
 
     useEffect(() => {
@@ -57,17 +73,19 @@ const ProfileSettings = props => {
                     accept="image/*"
                     onChange={e => setBackgroundThemeImage(e.target.files[0])}
                 />
-                <div className={styles.others}>
+                <div>
                     <div className={styles.names}>
                         <div>
                             <label className={styles.label}>First Name</label>
                             <input
+                                value={firstName}
                                 onChange={(e) => setFirstName(e.target.value)}
                             />
                         </div>
                         <div>
                             <label className={styles.label}>Last Name</label>
                             <input
+                                value={lastName}
                                 onChange={(e) => setLastName(e.target.value)}
                             />
                         </div>
@@ -76,6 +94,7 @@ const ProfileSettings = props => {
                         <label className={styles.label}>Status</label>
                         <textarea
                             maxLength="140"
+                            value={status}
                             onChange={(e) => setStatus(e.target.value)}
                         />
                     </div>
@@ -86,8 +105,20 @@ const ProfileSettings = props => {
                 >
                     Save
                 </button>
+                {/* alerts here */}
+                {
+                    props.success ? <div className={alertStyles.success}>
+                        {props.alert_msg}
+                        <a onClick={alertDismissHandler}>&times;</a>
+                    </div> : null
+                }
+                {
+                    props.error ? <div className={alertStyles.fail}>
+                        {props.alert_msg}
+                        <a onClick={alertDismissHandler}>&times;</a>
+                    </div> : null
+                }
             </form>
-
         </div>
     )
 };
@@ -97,14 +128,18 @@ function mapStateToProps(state) {
         user_id: state.auth.user_id,
         first_name: state.user.first_name,
         last_name: state.user.last_name,
-        avatar: state.user.avatar
+        avatar: state.user.avatar,
+        success: state.user.profile_settings_update_success,
+        error: state.user.profile_settings_error,
+        alert_msg: state.user.profile_settings_alert_msg,
+
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         getUserProfileInfo: user_id => dispatch(GetUserProfileInfo(user_id)),
-        saveChangesUserProfileInfo: (user_id, data) => dispatch(SaveChangesUserProfileInfo(user_id, data))
+        saveChangesUserProfileInfo: (data) => dispatch(SaveChangesUserProfileInfo(data))
     }
 }
 
