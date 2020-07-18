@@ -7,7 +7,6 @@ import {
 
 const initialState = {
     isRequesting: false,
-    friends: [],
     users: [],
     error: false,
     error_msg: ""

@@ -1,3 +1,55 @@
 .UserCard {
-
+    display: flex;
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #000000;
 }
+
+.avatar {
+    width: 100px;
+    height: 100px;
+    background-color: #ccc;
+    border-radius: 50%;
+}
+
+.block_info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 10px 0 0 20px;
+    width: 100%;
+}
+
+.name {
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.write_msg {
+    background-color: #0074F2;
+}
+
+.add_to_friends {
+    background-color: lightgreen;
+}
+
+.unfriend {
+    background-color: #DC3545;
+}
+
+.btn_block {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.btn {
+    padding: 10px;
+    font-size: 14px;
+    font-weight: 700;
+    border-radius: 3px;
+    color: white;
+    border: none;
+}
+

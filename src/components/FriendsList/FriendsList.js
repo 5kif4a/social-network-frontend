@@ -5,21 +5,21 @@ import UserCard from "../UserCard/UserCard";
 export default props => {
     let friends;
 
-    if (props.friends) {
+    if (props.friends.length) {
         friends = (
-            props.friends.map(friend => {
-                return <UserCard friend={friend}/>
+            props.friends.map((friend, index) => {
+                return <UserCard key={index} user={friend} isFriend/>
             })
         )
     } else {
         friends = (
-            <p>No friends were found</p>
+            <h3 className={styles.text}>No friends were found</h3>
         )
     }
 
     return (
-        <ul className={styles.FriendsList}>
+        <div className={styles.FriendsList}>
             {friends}
-        </ul>
+        </div>
     )
 }

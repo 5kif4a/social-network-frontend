@@ -3,13 +3,16 @@ import postsReducer from "./posts";
 import userReducer from "./user";
 import authReducer from "./auth";
 import searchReducer from "../actions/search";
+import friendsReducer from "./friends";
 import {RESET_STATE} from "../actions/actionsTypes";
+
 
 const appReducer = combineReducers({
     auth: authReducer,
     user: userReducer,
     posts: postsReducer,
-    search: searchReducer
+    search: searchReducer,
+    friends: friendsReducer
 });
 
 export default function rootReducer(state, action) {
