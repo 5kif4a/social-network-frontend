@@ -25,7 +25,11 @@ export default function searchReducer(state = initialState, action) {
                 users: action.payload.users
             };
         case FAILED_SEARCH_USERS:
-            return {};
+            return {
+                ...state,
+                error: true,
+                error_msg: action.payload.error_message
+            };
         case SEARCH_USERS_REQUEST_COMPLETED:
             return {
                 ...state,

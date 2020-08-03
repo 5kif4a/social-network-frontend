@@ -95,11 +95,12 @@ export function LogOut() {
 }
 
 // User Registration Actions
-export function Register(username, email, first_name, last_name, password, history) {
+export function Register(signUpData, history) {
     return async dispatch => {
         dispatch(StartRegister());
         try {
             // 1) make user registration request
+            const {username, email, password} = signUpData;
             await API.post('/auth/users/', {
                 username,
                 email,
@@ -113,6 +114,8 @@ export function Register(username, email, first_name, last_name, password, histo
 
             // 3) create user profile
             localStorage.setItem('access_token', tokens.access);
+            const first_name = signUpData.firstName;
+            const last_name = signUpData.lastName;
             await API.post('/api/profiles/', {user_id: decoded_token.user_id, first_name, last_name});
             localStorage.removeItem('access_token');
             dispatch(SuccessRegister());

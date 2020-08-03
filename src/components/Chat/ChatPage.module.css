@@ -1,0 +1,95 @@
+.Chat {
+    display: grid;
+    grid-template-columns: 250px 1fr;
+}
+
+.ChatList {
+    background-color: #E5EBEE;
+    padding: 15px;
+    list-style: none;
+}
+
+.ChatListItem {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-radius: 5px;
+    position: relative;
+}
+
+.ChatListItem img {
+    width: 48px;
+    height: 48px;
+    border: 3px solid #fff;
+    border-radius: 50%;
+}
+
+.ChatListItem p {
+    font-size: 20px;
+    font-weight: 700;
+    padding: 0 10px;
+}
+
+.current {
+    background-color: #CFD9DE;
+}
+
+.status {
+    width: .7em;
+    height: .7em;
+    border-radius: 50%;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.online {
+    background-color: #00A649;
+}
+
+.offline {
+    background-color: #FF2147;
+}
+
+.Main {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: #FDFDFD;
+}
+
+.Messages {
+    height: 100%;
+}
+
+.Message {
+
+}
+
+.Input {
+    display: flex;
+    background-color: #DAE1E5;
+    height: 60px;
+    padding: 10px 15px;
+}
+
+.Input textarea {
+    width: 100%;
+    margin-right: 10px;
+    border-radius: 5px;
+    border: 1px solid #C6D0D4;
+}
+
+.Input button {
+    background-color: #64757C;
+    color: #fff;
+    padding: 0 15px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+}
+
+.Input button:hover {
+    cursor: pointer;
+}

@@ -10,8 +10,8 @@ export default function searchUsers(value) {
     return async dispatch => {
         dispatch({type: START_SEARCH_USERS});
         try {
-            const response = await API.get(`/api/profiles?q=${value}`);
-            const users = response.data.users;
+            const response = await API.get(`/api/profiles?search=${value}`);
+            const users = response.data;
             dispatch({type: SUCCESS_SEARCH_USERS, payload: {users}})
         } catch (e) {
             const error = e.response;

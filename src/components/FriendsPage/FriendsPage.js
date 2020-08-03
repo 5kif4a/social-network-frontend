@@ -16,19 +16,17 @@ const FriendsPage = props => {
             return Object.keys(names).some(key => names[key].toLowerCase().includes(filter));
         });
 
+        // if no matches in friends list, search globally users
         if (filteredFriends.length === 0) props.searchUsers(filter);
-        else setFriends(filteredFriends);
+
+        setFriends(filteredFriends);
     };
 
     useEffect(() => {
         props.fetchUserFriends(setFriends);
     }, []);
 
-
-    useEffect(() => {
-        searchHandler();
-    }, [filter]);
-
+    useEffect(() => searchHandler(), [filter]);
 
     return (
         <div className={styles.FriendsPage}>
@@ -40,7 +38,7 @@ const FriendsPage = props => {
             />
             <hr/>
             <FriendsList friends={friends}/>
-            <UsersList users={[]}/>
+            {!friends.length ? <UsersList users={props.users}/> : null}
         </div>
     )
 };

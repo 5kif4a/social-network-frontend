@@ -4,19 +4,19 @@ import Posts from "../Posts/Posts";
 import {connect} from "react-redux";
 import GetUserProfileInfo from "../../store/actions/user";
 import {FetchPosts, PublishPost} from "../../store/actions/posts";
-import {baseURL} from "../../axios/api";
+import {mediaURL} from "../../axios/api";
 import {withRouter} from "react-router-dom";
 
 const ProfilePage = props => {
     const [postContent, setPostContent] = useState("");
     const [image, setImage] = useState(null);
 
-    const avatarURL = props.avatar ? baseURL + props.avatar : "/images/no_avatar.png";
-    const themeURL = props.theme ? baseURL + props.theme : "/images/not_theme.png";
+    const avatarURL = props.avatar ? mediaURL + props.avatar : "/images/no_avatar.png";
+    const themeURL = props.theme ? mediaURL + props.theme : "/images/not_theme.png";
 
     const publishHandler = () => {
         if (postContent.length) {
-            props.publishPost(props.user_id, postContent, image);
+            props.publishPost(postContent, image);
             setPostContent("");  // clear textarea
             setImage(null);
         }
@@ -114,7 +114,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         getUserProfileInfo: user_id => dispatch(GetUserProfileInfo(user_id)),
-        publishPost: (user_id, content, image) => dispatch(PublishPost(user_id, content, image)),
+        publishPost: (content, image) => dispatch(PublishPost(content, image)),
         fetchPosts: (user_id) => dispatch(FetchPosts(user_id))
     }
 }

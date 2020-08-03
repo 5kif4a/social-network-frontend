@@ -4,6 +4,7 @@ import {connect} from "react-redux";
 import {Link, withRouter} from "react-router-dom";
 import {Register} from "../../store/actions/auth";
 import Input from "./Input";
+import {email_regex, name_regex, password_regex, username_regex} from "../../service/regex";
 
 const SignUp = props => {
     const firstRender = useRef(true);
@@ -34,11 +35,6 @@ const SignUp = props => {
     const [confirmationPasswordErrorMessage, setConfirmationPasswordErrorMessage] = useState("");
 
     const [alertStyle, setAlertStyle] = useState(styles.alert);
-
-    // RegEx
-    const username_regex = /^[a-z0-9._-]{3,16}$/;
-    const name_regex = /[-!$%^&*()_+|~=`{}\[\]:";'<>?,.\/0-9]/;
-    const password_regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/;
 
     const allIsValid = [
         usernameIsValid,
@@ -77,6 +73,10 @@ const SignUp = props => {
         if (!email.length) {
             setEmailIsValid(false);
             setEmailErrorMessage("Email field cannot be empty!");
+        }
+        if (!email.match(email_regex)) {
+            setEmailIsValid(false);
+            setEmailErrorMessage("Invalid email!");
         }
 
         // name validation
@@ -125,13 +125,14 @@ const SignUp = props => {
 
         if (allIsValid) {
             setAlertStyle(styles.alert);
-            props.register(
+            const signUpData = {
                 username,
                 email,
                 firstName,
                 lastName,
-                password,
-                props.history)  // history need for redirecting after success registration
+                password
+            };
+            props.register(signUpData, props.history)  // history need for redirecting after success registration
         }
     };
 
@@ -251,7 +252,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        register: (username, email, first_name, last_name, password, history) => dispatch(Register(username, email, first_name, last_name, password, history))
+        register: (signUpData, history) => dispatch(Register(signUpData, history))
     }
 }
 

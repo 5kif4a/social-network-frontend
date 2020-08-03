@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from "react";
 import styles from "./ProfileSettings.module.css"
 import {connect} from "react-redux";
-import {baseURL} from "../../axios/api";
+import {mediaURL} from "../../axios/api";
 import GetUserProfileInfo, {SaveChangesUserProfileInfo} from "../../store/actions/user";
 
 const ProfileSettings = props => {
-    const avatarURL = props.avatar ? baseURL + props.avatar : "/images/no_avatar.png";
+    const avatarURL = props.avatar ? mediaURL + props.avatar : "/images/no_avatar.png";
 
     const [avatarImage, setAvatarImage] = useState(null);
     const [backgroundThemeImage, setBackgroundThemeImage] = useState(null);

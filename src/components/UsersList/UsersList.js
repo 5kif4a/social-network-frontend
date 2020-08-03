@@ -7,8 +7,8 @@ export default props => {
 
     if (props.users.length) {
         users = (
-            props.friends.map((friend, index) => {
-                return <UserCard key={index} user={friend}/>
+            props.users.map((user, index) => {
+                return <UserCard key={index} user={user}/>
             })
         )
     } else {

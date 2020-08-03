@@ -1,24 +1,25 @@
 import React from "react";
 import styles from "./UserCard.module.css"
-import {baseURL} from "../../axios/api";
+import {mediaURL} from "../../axios/api";
 import {connect} from "react-redux";
-import {withRouter} from "react-router-dom";
+import {Link, withRouter} from "react-router-dom";
+import {addFriend, unfriend} from "../../store/actions/friends";
 
 
 const UserCard = props => {
-    const {id, first_name, last_name} = props.user.user;
-    const avatarURL = props.user.avatar ? baseURL + props.user.avatar : "/images/no_avatar.png";
+    const {id, username, first_name, last_name} = props.user.user;
+    const avatarURL = props.user.avatar ? mediaURL + props.user.avatar : "/images/no_avatar.png";
 
     const writeMsgHandler = () => {
-        props.history.push('/im')
+        props.history.push('/im', {user_id: id})
     };
 
     const addFriendHandler = () => {
-
+        props.addFriend(id);
     };
 
     const unfriendHandler = () => {
-
+        props.unfriend(id);
     };
 
     let buttons;
@@ -30,14 +31,19 @@ const UserCard = props => {
             </>
         )
     } else {
-        buttons = <button className={`${styles.btn} ${styles.add_to_friends}`} onClick={addFriendHandler}>Add friend</button>
+        buttons =
+            <button className={`${styles.btn} ${styles.add_to_friends}`} onClick={addFriendHandler}>Add friend</button>
     }
 
     return (
         <div className={styles.UserCard}>
-            <img className={styles.avatar} src={avatarURL}/>
+            <Link to={`profile/${username}`}>
+                <img className={styles.avatar} src={avatarURL}/>
+            </Link>
             <div className={styles.block_info}>
-                <p className={styles.name}>{first_name} {last_name}</p>
+                <Link className={styles.link} to={`profile/${username}`}>
+                    <p className={styles.name}>{first_name} {last_name}</p>
+                </Link>
                 <div className={styles.btn_block}>{buttons}</div>
             </div>
         </div>
@@ -46,7 +52,8 @@ const UserCard = props => {
 
 function mapDispatchToProps(dispatch) {
     return {
-
+        addFriend: user_id => dispatch(addFriend(user_id)),
+        unfriend: user_id => dispatch(unfriend(user_id))
     }
 }
 
