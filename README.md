@@ -1,7 +1,7 @@
-## Social Network - React App
+## Social Network - [React](https://reactjs.org/) App
 ### [See Back-end API here](https://github.com/5kif4a/social-network-backend)  
 ### Installation 
-**NodeJS required**  
+**[NodeJS](https://nodejs.org/en/) required**  
 Download source code:
 ```
 $ git clone https://github.com/5kif4a/social-network-frontend.git
