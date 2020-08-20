@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React from "react";
 import styles from "./Posts.module.css"
 import Post from "../Post/Post";
 import {connect} from "react-redux";
@@ -22,10 +22,6 @@ const Posts = props => {
             <p className={styles.Posts__no_posts_message}>No posts</p>
         )
     }
-
-    // useEffect(() => {
-    //     props.fetchPosts(props.user_id)
-    // }, []);
 
     return (
         <div className={styles.Posts}>

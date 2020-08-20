@@ -60,12 +60,74 @@
 }
 
 .Messages {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
     height: 100%;
+    padding: 0 15px 15px 15px;
 }
 
 .Message {
-
+    display: flex;
+    padding-top: 15px;
 }
+
+.Message img {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+}
+
+.Message p {
+    width: 540px;
+    background-color: #C2EAFF;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-size: 1em;
+    line-height: 1.5em;
+    position: relative;
+}
+
+.interlocutor p {
+    background-color: #FFEBBD;
+    margin-left: 20px;
+}
+
+.interlocutor p:after {
+     content: "";
+    position: absolute;
+    margin-top: 10px;
+    margin-left: -10px;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 10px solid #FFEBBD;
+    transform: rotate(-90deg);
+    left: -5px;
+    top: 10px;
+}
+
+.user {
+    flex-direction: row-reverse;
+}
+
+.user p {
+    background-color: #A7D9FA;
+    margin-right: 20px;
+}
+
+.user p:after {
+    content: "";
+    position: absolute;
+    margin-top: 10px;
+    margin-left: -10px;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 10px solid #A7D9FA;
+    transform: rotate(90deg);
+    right: -15px;
+    top: 10px;
+}
+
 
 .Input {
     display: flex;
@@ -79,6 +141,7 @@
     margin-right: 10px;
     border-radius: 5px;
     border: 1px solid #C6D0D4;
+    resize: none;
 }
 
 .Input button {

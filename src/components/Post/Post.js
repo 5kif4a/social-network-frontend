@@ -1,10 +1,10 @@
 import React from "react";
 import styles from "./Post.module.css";
 import {connect} from "react-redux";
-import {baseURL} from "../../axios/api";
+import {mediaURL} from "../../axios/api";
 
 const Post = props => {
-    const avatarURL = props.avatar ? baseURL + props.avatar : "/images/person";
+    const avatarURL = props.avatar ? mediaURL + props.avatar : "/images/no_avatar.png";
     const created_at = new Date(props.created_at).toLocaleString();
 
     return (
@@ -19,7 +19,7 @@ const Post = props => {
             <div className={styles.Post__Content}>
                 {props.attachment ?
                     <img className={styles.Post__Image}
-                         src={baseURL + props.attachment}
+                         src={mediaURL + props.attachment}
                          alt="post"/> : null}
                 {props.content}
             </div>
